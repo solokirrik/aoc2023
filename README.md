@@ -1,2 +1,3 @@
-# aoc2023
-adventofcode.com/2023
+# AOC'23
+
+https://adventofcode.com/2023
