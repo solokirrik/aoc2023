@@ -1,5 +1,8 @@
 .DS_Store
 .idea
 .config
+.python-version
+pyproject.toml
+**/__pycache__
 **/bin/
 **/obj/
