@@ -2,6 +2,7 @@
 .idea
 .config
 .python-version
+.vscode
 pyproject.toml
 **/__pycache__
 **/bin/
