@@ -24,10 +24,11 @@ func Task2(rawLines []byte) int {
 
 	return out
 }
+
 func extractWalkers(networkMap map[string][]string) []State {
 	walkers := make([]State, 0, len(networkMap))
 
-	for node, _ := range networkMap {
+	for node := range networkMap {
 		if strings.Contains(node, "A") {
 			walkers = append(walkers, State{Position: node})
 		}
