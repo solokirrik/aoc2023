@@ -13,16 +13,21 @@ func main() {
 	out1 := Task1(input)
 	fmt.Println(out1 == 11309, out1)
 
+	out2 := Task2(input)
+	fmt.Println(out2 == 13740108158591, out2)
 }
 
-func Task1(rawLines []byte) int {
+func parse(rawLines []byte) (sequenceRaw []byte, networkMap map[string][]string) {
 	lines := bytes.Split(rawLines, []byte("\n"))
 
-	sequenceRaw := lines[0]
+	sequenceRaw = lines[0]
 	mapRaw := lines[2:]
-	networkMap := make(map[string][]string)
+	networkMap = make(map[string][]string)
 
 	for _, line := range mapRaw {
+		if len(line) == 0 {
+			continue
+		}
 		parts := bytes.Split(line, []byte(" = "))
 		root := string(parts[0])
 		connections := bytes.Split(bytes.Trim(parts[1], "()"), []byte(", "))
@@ -32,16 +37,12 @@ func Task1(rawLines []byte) int {
 		}
 	}
 
-	i := 0
-	curNode := "AAA"
+	return sequenceRaw, networkMap
+}
 
-	for curNode != "ZZZ" {
-		i++
-		direction := sequenceRaw[(i-1)%len(sequenceRaw)]
-		curNode = networkMap[curNode][directionToIndex(direction)]
-	}
-
-	return i
+type State struct {
+	Position     string
+	StepsToReach int
 }
 
 func directionToIndex(direction byte) int {
