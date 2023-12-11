@@ -10,6 +10,7 @@ def task1(lines):
 
     return result
 
+
 def count_common_cards(line):
     cards = line.split(": ")[1].split(" | ")
     winning_cards = [x.strip() for x in cards[0].split(" ")if x != ""]
@@ -17,6 +18,7 @@ def count_common_cards(line):
     common_items = [num for num in my_cards if num in winning_cards]
 
     return common_items
+
 
 def task2(lines):
     result = 0
@@ -33,7 +35,6 @@ def task2(lines):
                 for j in range(1, len(common_items)+1):
                     if cards.get(i+1+j) is not None:
                         cards[i+1+j] += 1
-
 
     for v in cards.values():
         result += v

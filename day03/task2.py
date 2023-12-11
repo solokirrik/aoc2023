@@ -4,6 +4,7 @@ from collections import namedtuple
 # row, col - row and col coordinated of the star sign
 StarNeighbour = namedtuple('DataStruct', ['value', 'row', 'col'])
 
+
 def is_adjacent_to_star(mtx, r, c):
     rows = len(mtx)
     line_len = len(mtx[0])
@@ -17,11 +18,14 @@ def is_adjacent_to_star(mtx, r, c):
 
     return False, 0, 0
 
+
 def filer_by_star(star, coll):
     return [e for e in coll if e.row == star.row and e.col == star.col]
 
+
 def is_in_collection(item, coll):
     return len(filer_by_star(item, coll)) > 0
+
 
 def filter_multiply(numbers_with_coords):
     numbers = []
@@ -45,6 +49,7 @@ def filter_multiply(numbers_with_coords):
 
     return numbers
 
+
 def numbers_with_stars(matrix):
     numbers_adj_to_stars = []
 
@@ -60,7 +65,8 @@ def numbers_with_stars(matrix):
             if not char.isdigit():
                 if len(number_digits) > 0 and len(star_coords) > 0:
                     # print("".join(number_digits),"is adjacent to", matrix[star_coords[0]][star_coords[1]])
-                    new_entry = StarNeighbour(int("".join(number_digits)), star_coords[0], star_coords[1])
+                    new_entry = StarNeighbour(
+                        int("".join(number_digits)), star_coords[0], star_coords[1])
                     numbers_adj_to_stars.append(new_entry)
 
                 # if len(number_digits) > 0 and len(star_coords) == 0:
@@ -83,10 +89,12 @@ def numbers_with_stars(matrix):
 
         # process possible last number in the row
         if len(number_digits) > 0 and len(star_coords) > 0:
-            new_entry = StarNeighbour(int("".join(number_digits)), star_coords[0], star_coords[1])
+            new_entry = StarNeighbour(
+                int("".join(number_digits)), star_coords[0], star_coords[1])
             numbers_adj_to_stars.append(new_entry)
 
     return numbers_adj_to_stars
+
 
 def task2(matrix):
     # precollect all

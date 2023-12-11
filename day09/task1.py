@@ -1,5 +1,6 @@
 from util import build_till_zeros
 
+
 def task1(numbers):
     new_vals = []
 
@@ -7,6 +8,7 @@ def task1(numbers):
         new_vals.append(extract_history_val1(line))
 
     return sum(new_vals)
+
 
 def extract_history_val1(line):
     all_zeros = build_till_zeros(line)

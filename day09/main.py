@@ -5,7 +5,8 @@ from task2 import task2
 
 if __name__ == '__main__':
     with open('./day09/input') as f:
-        numbers = [[int(i) for i in x] for x in [line.strip().split() for line in f.readlines()]]
+        numbers = [[int(i) for i in x]
+                   for x in [line.strip().split() for line in f.readlines()]]
 
         out1 = task1(deepcopy(numbers))
         print(out1 == 1641934234, out1)

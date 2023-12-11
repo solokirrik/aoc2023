@@ -2,6 +2,7 @@
 def is_symbol(char):
     return char in "!@#$%^&*()_-+={}[]|\:;'<>,?/"
 
+
 def is_adjacent_to_symbol(mtx, r, c):
     rows = len(mtx)
     line_len = len(mtx[0])
@@ -13,6 +14,7 @@ def is_adjacent_to_symbol(mtx, r, c):
             if is_symbol(mtx[r+i][c+j]):
                 return True
     return False
+
 
 def task1(matrix):
     numbers = []

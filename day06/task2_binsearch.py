@@ -6,11 +6,13 @@ def task2_binsearch(lines):
 
     return options
 
+
 def round_to_options_binsearch(round_time, record):
     min_time = find_min_push_time(round_time, record)
     max_time = find_max_push_time(round_time, record)
 
     return max_time-min_time+1
+
 
 def find_min_push_time(round_time, record):
     min_push_time = 1
@@ -29,6 +31,7 @@ def find_min_push_time(round_time, record):
             break
 
     return min(options_agg)
+
 
 def find_max_push_time(round_time, record):
     min_push_time = 1

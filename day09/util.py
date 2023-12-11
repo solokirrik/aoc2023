@@ -15,4 +15,3 @@ def build_till_zeros(line):
         all_zeros.append(new_line)
 
     return all_zeros
-

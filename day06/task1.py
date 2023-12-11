@@ -9,6 +9,7 @@ def task1(lines):
 
     return out
 
+
 def round_to_options(round_time, record):
     options = 0
     for push_time in range(1, round_time):

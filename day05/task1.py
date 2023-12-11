@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+
 def line_to_state(line):
     if line.startswith("seed-to-soil map:"):
         return "seed-to-soil"
@@ -17,7 +18,10 @@ def line_to_state(line):
         return "humidity-to-location"
     return "numbers"
 
-Boundaries = namedtuple('Boundaries', ['source_min', 'destination_min', 'elements'])
+
+Boundaries = namedtuple(
+    'Boundaries', ['source_min', 'destination_min', 'elements'])
+
 
 def build_transitions(lines):
     transitions = {}
@@ -33,9 +37,11 @@ def build_transitions(lines):
         if transitions.get(prev_state, None) is None:
             transitions[prev_state] = [Boundaries(line[1], line[0], line[2])]
         else:
-            transitions[prev_state].append(Boundaries(line[1], line[0], line[2]))
+            transitions[prev_state].append(
+                Boundaries(line[1], line[0], line[2]))
 
     return transitions
+
 
 def fins_locations(seeds, transitions):
     maps = [
@@ -75,8 +81,9 @@ def fins_locations(seeds, transitions):
                 continue
     return locations
 
+
 def task1(lines):
-    seeds = {int(x):{} for x in lines.pop(0)[len("seeds: "):].split(" ")}
+    seeds = {int(x): {} for x in lines.pop(0)[len("seeds: "):].split(" ")}
     transitions = build_transitions(lines)
     locations = fins_locations(seeds, transitions)
 
