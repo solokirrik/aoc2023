@@ -70,6 +70,7 @@ Each cycle tilts the platform four times so that the rounded rocks roll north, t
 Here's what happens in the example above after each of the first few cycles:
 
 After 1 cycle:
+
 ```text
 .....#....
 ....#...O#
