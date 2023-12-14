@@ -14,3 +14,5 @@
 * [Day 10: Pipe Maze](day10/README.md)
 * [Day 11: Cosmic Expansion](day11/README.md)
 * [Day 12: Hot Springs](day12/README.md)
+* [Day 13: Point of Incidence](day12/README.md)
+* [Day 14: The Great Escape](day14/README.md)
