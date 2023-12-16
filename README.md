@@ -17,3 +17,4 @@
 * [Day 13: Point of Incidence](day12/README.md)
 * [Day 14: The Great Escape](day14/README.md)
 * [Day 15: Lens Library](day15/README.md)
+* [Day 16: The Floor Will Be Lava](day16/README.md)

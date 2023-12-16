@@ -4,6 +4,8 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
+
+	"github.com/solokirrik/aoc2023/ops"
 )
 
 //go:embed input
@@ -24,7 +26,10 @@ func main() {
 	// out2 := Task2v2(bytes.Fields(input), cycles)
 	// fmt.Println(87700 == out2)
 
-	out2 := Task2v3(bytes.Fields(input))
+	out2 := 0
+	ops.TimeIt(func() {
+		out2 = Task2v3(bytes.Fields(input))
+	})
 	fmt.Println(87700 == out2)
 }
 
