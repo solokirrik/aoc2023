@@ -20,6 +20,7 @@ var inputExample []byte
 
 func main() {
 	// 200ms
+	// Part1 V1
 	ops.TimeIt(func() {
 		inp := bytes.Split(input, []byte("\n"))
 		entries := make([]Entry, 0, len(inp))
@@ -41,9 +42,33 @@ func main() {
 		fmt.Println(76387 == out1, out1)
 	})
 
-	// heat death of the universe
+	// 64.167µs
+	// Part1 V2
 	ops.TimeIt(func() {
-		inp := bytes.Split(inputExample, []byte("\n"))
+		inp := bytes.Split(input, []byte("\n"))
+		entries := make([]Entry, 0, len(inp))
+		for _, l := range inp {
+			parts := bytes.Split(l, []byte(" "))
+			dist := int(parts[1][0] - '0')
+			if len(parts[1]) > 1 {
+				dist = int(parts[1][0]-'0')*10 + int(parts[1][1]-'0')
+			}
+			e := Entry{
+				Dir:  string(parts[0]),
+				Dist: dist,
+			}
+
+			entries = append(entries, e)
+		}
+
+		out1 := GaussArea(EntriesToLines(entries))
+		fmt.Println(76387 == out1, out1)
+	})
+
+	// 93.917µs
+	// Part2
+	ops.TimeIt(func() {
+		inp := bytes.Split(input, []byte("\n"))
 		entries := make([]Entry, 0, len(inp))
 		for _, l := range inp {
 			part2Info := bytes.Trim(bytes.Split(l, []byte(" "))[2], "()")
@@ -54,8 +79,8 @@ func main() {
 			entries = append(entries, e)
 		}
 
-		out2 := Task1(entries)
-		fmt.Println(952408144115 == out2, out2)
+		out22 := GaussArea(EntriesToLines(entries))
+		fmt.Println(250022188522074 == uint64(out22), uint64(out22))
 	})
 }
 
@@ -92,6 +117,7 @@ func Task1(entries []Entry) int {
 	return int(cubics.Load())
 }
 
+// heat death of the universe
 func Task2(entries []Entry) int {
 	perimetr, perimIndex, topLeft, downRight := buildPerimeter(entries)
 	fmt.Println(topLeft, downRight)
@@ -120,6 +146,56 @@ func Task2(entries []Entry) int {
 	return int(cubics.Load())
 }
 
+func EntriesToLines(entries []Entry) []Line {
+	lines := make([]Line, 0, len(entries))
+	p1x, p1y, p2x, p2y := 0.0, 0.0, 0.0, 0.0
+
+	for _, e := range entries {
+		switch e.Dir {
+		case "R":
+			p2x = p1x + float64(e.Dist)
+		case "L":
+			p2x = p1x - float64(e.Dist)
+		case "D":
+			p2y = p1y + float64(e.Dist)
+		case "U":
+			p2y = p1y - float64(e.Dist)
+		}
+
+		lines = append(lines, Line{
+			p1: Point2D{p1x, p1y},
+			p2: Point2D{p2x, p2y},
+		})
+
+		p1x, p1y = p2x, p2y
+	}
+
+	return lines
+}
+
+type Line struct {
+	p1 Point2D
+	p2 Point2D
+}
+
+func (l Line) Len() float64 {
+	if l.p1.y == l.p2.y {
+		return math.Abs(l.p1.x - l.p2.x)
+	}
+	return math.Abs(l.p1.y - l.p2.y)
+}
+
+func GaussArea(lines []Line) float64 {
+	sum := 0.0
+
+	for i := 0; i < len(lines); i++ {
+		sum += (lines[i].p1.y + lines[i].p2.y) * (lines[i].p1.x - lines[i].p2.x)
+		sum += lines[i].Len()
+	}
+
+	return sum/2 + 1
+}
+
 func decodeHexIntoDec(hex string) int {
 	dec, err := strconv.ParseInt(hex, 16, 64)
 	if err != nil {
@@ -137,7 +213,7 @@ func buildPerimeter(entries []Entry) ([]Point2D, map[Point2D]struct{}, Point2D, 
 	for p := range entries {
 		for i := 0; i < entries[p].Dist; i++ {
 			lastPoint := perimeter[len(perimeter)-1]
-			nextPoint := applyDirection(lastPoint, entries[p].Dir, entries[p].Dist)
+			nextPoint := applyDirection(lastPoint, entries[p].Dir, 1)
 			perimIndex[nextPoint] = struct{}{}
 			if nextPoint.x > downRight.x {
 				downRight.x = nextPoint.x
@@ -153,6 +229,34 @@ func buildPerimeter(entries []Entry) ([]Point2D, map[Point2D]struct{}, Point2D, 
 			}
 			perimeter = append(perimeter, nextPoint)
 		}
+	}
+
+	return perimeter, perimIndex, topLeft, downRight
+}
+
+func buildPerimeterV2(entries []Entry) ([]Point2D, map[Point2D]struct{}, Point2D, Point2D) {
+	perimeter := []Point2D{{0, 0}}
+	perimIndex := map[Point2D]struct{}{{0, 0}: {}}
+
+	topLeft, downRight := Point2D{math.Inf(1), math.Inf(1)}, Point2D{math.Inf(-1), math.Inf(-1)}
+
+	for p := range entries {
+		lastPoint := perimeter[len(perimeter)-1]
+		nextPoint := applyDirection(lastPoint, entries[p].Dir, float64(entries[p].Dist))
+		perimIndex[nextPoint] = struct{}{}
+		if nextPoint.x > downRight.x {
+			downRight.x = nextPoint.x
+		}
+		if nextPoint.y > downRight.y {
+			downRight.y = nextPoint.y
+		}
+		if nextPoint.x < topLeft.x {
+			topLeft.x = nextPoint.x
+		}
+		if nextPoint.y < topLeft.y {
+			topLeft.y = nextPoint.y
+		}
+		perimeter = append(perimeter, nextPoint)
 	}
 
 	return perimeter, perimIndex, topLeft, downRight
@@ -231,18 +335,18 @@ func numToDir(n int) string {
 	panic("Unknown direction number" + strconv.Itoa(n))
 }
 
-func applyDirection(p Point2D, d string, step int) Point2D {
+func applyDirection(p Point2D, d string, step float64) Point2D {
 	if d == "R" {
-		return Point2D{p.x + 1, p.y}
+		return Point2D{p.x + step, p.y}
 	}
 	if d == "L" {
-		return Point2D{p.x - 1, p.y}
+		return Point2D{p.x - step, p.y}
 	}
 	if d == "D" {
-		return Point2D{p.x, p.y + 1}
+		return Point2D{p.x, p.y + step}
 	}
 	if d == "U" {
-		return Point2D{p.x, p.y - 1}
+		return Point2D{p.x, p.y - step}
 	}
 
 	panic("Unknown direction")
