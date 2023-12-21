@@ -20,3 +20,6 @@
 * [Day 16: The Floor Will Be Lava](day16/README.md)
 * [Day 17: Clumsy Crucible](day17/README.md)
 * [Day 18: Lavaduct Lagoon](day18/README.md)
+* [Day 19: Aplenty](day19/README.md)
+* [Day 20: Pulse Propagation](day20/README.md)
+* [Day 21: Step Counter](day21/README.md)
