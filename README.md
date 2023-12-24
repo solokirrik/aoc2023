@@ -23,3 +23,6 @@
 * [Day 19: Aplenty](day19/README.md)
 * [Day 20: Pulse Propagation](day20/README.md)
 * [Day 21: Step Counter](day21/README.md)
+* [Day 22: Sand Slabs](day22/README.md)
+* [Day 23: A Long Walk](day23/README.md)
+* [Day 24: Never Tell Me The Odds](day24/README.md)
